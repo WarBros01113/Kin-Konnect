@@ -1,0 +1,238 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 208 100% 97%; /* #F0F8FF Very Light Blue */
+    --foreground: 210 40% 9.8%; /* Dark text color */
+
+    --card: 208 100% 99%;
+    --card-foreground: 210 40% 9.8%;
+
+    --popover: 208 100% 99%;
+    --popover-foreground: 210 40% 9.8%;
+
+    --primary: 200 69% 77%; /* #89CFF0 Light Blue */
+    --primary-foreground: 200 50% 20%; /* Darker blue for text on primary bg */
+
+    --secondary: 208 60% 93%;
+    --secondary-foreground: 208 50% 30%;
+
+    --muted: 208 50% 90%;
+    --muted-foreground: 208 30% 50%;
+
+    --accent: 120 73% 75%; /* #90EE90 Soft Green */
+    --accent-foreground: 120 50% 20%; /* Darker green for text on accent bg */
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 208 40% 85%;
+    --input: 208 40% 90%;
+    --ring: 200 69% 77%; /* Primary color for rings */
+
+    --radius: 0.5rem;
+
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    
+    /* Sidebar specific colors */
+    --sidebar-background: 210 40% 12%; /* Darker blue for admin sidebar */
+    --sidebar-foreground: 208 80% 95%; /* Light text for admin sidebar */
+    --sidebar-primary: 200 75% 85%; /* Lighter primary for admin sidebar highlights */
+    --sidebar-primary-foreground: 210 50% 15%;
+    --sidebar-accent: 120 65% 80%; /* Lighter accent for admin sidebar */
+    --sidebar-accent-foreground: 120 50% 20%;
+    --sidebar-border: 210 30% 25%;
+    --sidebar-ring: 200 75% 85%;
+
+
+    /* Node specific colors */
+    --kin-spouse-child-border: 160 60% 65%; /* A distinct soft teal - DEFAULT for un-ordered spouses/children beyond 20 */
+    --kin-spouse-child-bg: 160 60% 96%;
+    --kin-parent-sibling-border: 260 60% 78%; /* A distinct soft lavender */
+    --kin-parent-sibling-bg: 260 60% 97%;
+
+    /* Multiple Spouse Colors (Border HSL, Background HSL) - Up to 20 */
+    /* Spouse 0 (First Spouse - Green/Accent) */
+    --kin-spouse-0-border-h: 120; --kin-spouse-0-border-s: 73%; --kin-spouse-0-border-l: 65%; 
+    --kin-spouse-0-bg-h: 120;     --kin-spouse-0-bg-s: 73%;     --kin-spouse-0-bg-l: 95%; 
+    /* Spouse 1 (Second Spouse - Orange) */
+    --kin-spouse-1-border-h: 30;  --kin-spouse-1-border-s: 100%;--kin-spouse-1-border-l: 60%; /* Bright Orange */
+    --kin-spouse-1-bg-h: 30;      --kin-spouse-1-bg-s: 100%;    --kin-spouse-1-bg-l: 95%; /* Light Orange */
+    /* Spouse 2 (Third Spouse - Purple) */
+    --kin-spouse-2-border-h: 270; --kin-spouse-2-border-s: 70%; --kin-spouse-2-border-l: 65%; /* Medium Purple */
+    --kin-spouse-2-bg-h: 270;     --kin-spouse-2-bg-s: 70%;     --kin-spouse-2-bg-l: 96%; /* Light Purple */
+    /* Spouse 3 (Teal) */
+    --kin-spouse-3-border-h: 180; --kin-spouse-3-border-s: 70%; --kin-spouse-3-border-l: 55%; /* Teal */
+    --kin-spouse-3-bg-h: 180;     --kin-spouse-3-bg-s: 70%;     --kin-spouse-3-bg-l: 95%; /* Light Teal */
+    /* Spouse 4 (Pink) */
+    --kin-spouse-4-border-h: 330; --kin-spouse-4-border-s: 80%; --kin-spouse-4-border-l: 70%; /* Soft Pink */
+    --kin-spouse-4-bg-h: 330;     --kin-spouse-4-bg-s: 80%;     --kin-spouse-4-bg-l: 96%; /* Light Pink */
+    /* Spouse 5 (Yellow) */
+    --kin-spouse-5-border-h: 50;  --kin-spouse-5-border-s: 100%;--kin-spouse-5-border-l: 60%; /* Gold/Yellow */
+    --kin-spouse-5-bg-h: 50;      --kin-spouse-5-bg-s: 100%;    --kin-spouse-5-bg-l: 95%; /* Light Yellow */
+    /* Spouse 6 (Cyan) */
+    --kin-spouse-6-border-h: 190; --kin-spouse-6-border-s: 80%; --kin-spouse-6-border-l: 60%; /* Bright Cyan */
+    --kin-spouse-6-bg-h: 190;     --kin-spouse-6-bg-s: 80%;     --kin-spouse-6-bg-l: 96%; /* Light Cyan */
+    /* Spouse 7 (Lime Green) */
+    --kin-spouse-7-border-h: 90;  --kin-spouse-7-border-s: 70%; --kin-spouse-7-border-l: 55%; /* Lime */
+    --kin-spouse-7-bg-h: 90;      --kin-spouse-7-bg-s: 70%;     --kin-spouse-7-bg-l: 95%; /* Light Lime */
+    /* Spouse 8 (Indigo) */
+    --kin-spouse-8-border-h: 240; --kin-spouse-8-border-s: 60%; --kin-spouse-8-border-l: 70%; /* Indigo */
+    --kin-spouse-8-bg-h: 240;     --kin-spouse-8-bg-s: 60%;     --kin-spouse-8-bg-l: 96%; /* Light Indigo */
+    /* Spouse 9 (Red variant - Coral) */
+    --kin-spouse-9-border-h: 10;  --kin-spouse-9-border-s: 90%; --kin-spouse-9-border-l: 65%; /* Coral */
+    --kin-spouse-9-bg-h: 10;      --kin-spouse-9-bg-s: 90%;     --kin-spouse-9-bg-l: 95%; /* Light Coral */
+    /* Spouse 10 (Blue variant - Sky Blue) */
+    --kin-spouse-10-border-h: 210;--kin-spouse-10-border-s: 70%; --kin-spouse-10-border-l: 60%; /* Sky Blue */
+    --kin-spouse-10-bg-h: 210;    --kin-spouse-10-bg-s: 70%;     --kin-spouse-10-bg-l: 96%; /* Light Sky Blue */
+    /* Spouse 11 (Mint Green) */
+    --kin-spouse-11-border-h: 150;--kin-spouse-11-border-s: 60%; --kin-spouse-11-border-l: 60%; /* Mint */
+    --kin-spouse-11-bg-h: 150;    --kin-spouse-11-bg-s: 60%;     --kin-spouse-11-bg-l: 95%; /* Light Mint */
+    /* Spouse 12 (Magenta) */
+    --kin-spouse-12-border-h: 300;--kin-spouse-12-border-s: 70%; --kin-spouse-12-border-l: 60%; /* Magenta */
+    --kin-spouse-12-bg-h: 300;    --kin-spouse-12-bg-s: 70%;     --kin-spouse-12-bg-l: 96%; /* Light Magenta */
+    /* Spouse 13 (Olive Green) */
+    --kin-spouse-13-border-h: 75; --kin-spouse-13-border-s: 50%; --kin-spouse-13-border-l: 50%; /* Olive */
+    --kin-spouse-13-bg-h: 75;     --kin-spouse-13-bg-s: 50%;     --kin-spouse-13-bg-l: 94%; /* Light Olive */
+    /* Spouse 14 (Salmon) */
+    --kin-spouse-14-border-h: 5;  --kin-spouse-14-border-s: 70%; --kin-spouse-14-border-l: 68%; /* Salmon */
+    --kin-spouse-14-bg-h: 5;      --kin-spouse-14-bg-s: 70%;     --kin-spouse-14-bg-l: 96%; /* Light Salmon */
+    /* Spouse 15 (Steel Blue) */
+    --kin-spouse-15-border-h: 205;--kin-spouse-15-border-s: 50%; --kin-spouse-15-border-l: 55%; /* Steel Blue */
+    --kin-spouse-15-bg-h: 205;    --kin-spouse-15-bg-s: 50%;     --kin-spouse-15-bg-l: 95%; /* Light Steel Blue */
+    /* Spouse 16 (Rose) */
+    --kin-spouse-16-border-h: 340;--kin-spouse-16-border-s: 70%; --kin-spouse-16-border-l: 70%; /* Rose */
+    --kin-spouse-16-bg-h: 340;    --kin-spouse-16-bg-s: 70%;     --kin-spouse-16-bg-l: 96%; /* Light Rose */
+    /* Spouse 17 (Chartreuse) */
+    --kin-spouse-17-border-h: 80; --kin-spouse-17-border-s: 80%; --kin-spouse-17-border-l: 50%; /* Chartreuse */
+    --kin-spouse-17-bg-h: 80;     --kin-spouse-17-bg-s: 80%;     --kin-spouse-17-bg-l: 94%; /* Light Chartreuse */
+    /* Spouse 18 (Deep Purple) */
+    --kin-spouse-18-border-h: 255;--kin-spouse-18-border-s: 50%; --kin-spouse-18-border-l: 60%; /* Deep Purple */
+    --kin-spouse-18-bg-h: 255;    --kin-spouse-18-bg-s: 50%;     --kin-spouse-18-bg-l: 95%; /* Light Deep Purple */
+    /* Spouse 19 (Bronze) */
+    --kin-spouse-19-border-h: 35; --kin-spouse-19-border-s: 60%; --kin-spouse-19-border-l: 50%; /* Bronze */
+    --kin-spouse-19-bg-h: 35;     --kin-spouse-19-bg-s: 60%;     --kin-spouse-19-bg-l: 94%; /* Light Bronze */
+
+     /* Deceased Node Specific Colors */
+    --kin-deceased-border-h: 208; --kin-deceased-border-s: 10%; --kin-deceased-border-l: 60%; /* Muted Greyish Border */
+    --kin-deceased-bg-h: 208;     --kin-deceased-bg-s: 10%;     --kin-deceased-bg-l: 92%; /* Very Light Muted Greyish BG */
+
+  }
+
+  .dark {
+    --background: 210 30% 12%; 
+    --foreground: 208 100% 95%; 
+
+    --card: 210 30% 15%;
+    --card-foreground: 208 100% 95%;
+
+    --popover: 210 30% 15%;
+    --popover-foreground: 208 100% 95%;
+
+    --primary: 200 69% 77%; /* Light Blue - should be visible on dark */
+    --primary-foreground: 200 50% 20%; /* Darker blue for text on primary bg */
+
+    --secondary: 210 30% 20%;
+    --secondary-foreground: 208 100% 95%;
+
+    --muted: 210 30% 18%;
+    --muted-foreground: 208 50% 70%;
+
+    --accent: 120 73% 75%; /* Soft Green - should be visible on dark */
+    --accent-foreground: 120 50% 20%; /* Darker green for text on accent bg */
+
+    --destructive: 0 70% 50%; /* A visible red on dark */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 30% 25%;
+    --input: 210 30% 22%;
+    --ring: 200 69% 77%; /* Primary color for rings */
+
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    /* Sidebar specific colors - Dark Mode */
+    --sidebar-background: 210 35% 10%; /* Slightly adjusted for more depth */
+    --sidebar-foreground: 208 85% 96%;
+    --sidebar-primary: 200 70% 80%;
+    --sidebar-primary-foreground: 210 45% 12%;
+    --sidebar-accent: 120 70% 78%; 
+    --sidebar-accent-foreground: 120 45% 18%;
+    --sidebar-border: 210 30% 22%;
+    --sidebar-ring: 200 70% 80%;
+
+    /* Node specific colors - Dark Mode (using existing from user file, they seem fine) */
+    --kin-spouse-child-border: 160 50% 45%; 
+    --kin-spouse-child-bg: 160 50% 15%;
+    --kin-parent-sibling-border: 260 50% 55%;
+    --kin-parent-sibling-bg: 260 50% 18%;
+
+    /* Multiple Spouse Colors - Dark Mode (using existing from user file) */
+    --kin-spouse-0-border-h: 120; --kin-spouse-0-border-s: 60%; --kin-spouse-0-border-l: 55%;
+    --kin-spouse-0-bg-h: 120;     --kin-spouse-0-bg-s: 60%;     --kin-spouse-0-bg-l: 20%;
+    --kin-spouse-1-border-h: 30;  --kin-spouse-1-border-s: 80%; --kin-spouse-1-border-l: 50%; 
+    --kin-spouse-1-bg-h: 30;      --kin-spouse-1-bg-s: 80%;     --kin-spouse-1-bg-l: 18%; 
+    --kin-spouse-2-border-h: 270; --kin-spouse-2-border-s: 60%; --kin-spouse-2-border-l: 55%; 
+    --kin-spouse-2-bg-h: 270;     --kin-spouse-2-bg-s: 60%;     --kin-spouse-2-bg-l: 20%; 
+    --kin-spouse-3-border-h: 180; --kin-spouse-3-border-s: 60%; --kin-spouse-3-border-l: 45%; 
+    --kin-spouse-3-bg-h: 180;     --kin-spouse-3-bg-s: 60%;     --kin-spouse-3-bg-l: 18%;
+    --kin-spouse-4-border-h: 330; --kin-spouse-4-border-s: 70%; --kin-spouse-4-border-l: 60%; 
+    --kin-spouse-4-bg-h: 330;     --kin-spouse-4-bg-s: 70%;     --kin-spouse-4-bg-l: 20%;
+    --kin-spouse-5-border-h: 50;  --kin-spouse-5-border-s: 80%; --kin-spouse-5-border-l: 50%; 
+    --kin-spouse-5-bg-h: 50;      --kin-spouse-5-bg-s: 80%;     --kin-spouse-5-bg-l: 18%;
+    --kin-spouse-6-border-h: 190; --kin-spouse-6-border-s: 70%; --kin-spouse-6-border-l: 50%; 
+    --kin-spouse-6-bg-h: 190;     --kin-spouse-6-bg-s: 70%;     --kin-spouse-6-bg-l: 20%;
+    --kin-spouse-7-border-h: 90;  --kin-spouse-7-border-s: 60%; --kin-spouse-7-border-l: 45%; 
+    --kin-spouse-7-bg-h: 90;      --kin-spouse-7-bg-s: 60%;     --kin-spouse-7-bg-l: 18%;
+    --kin-spouse-8-border-h: 240; --kin-spouse-8-border-s: 50%; --kin-spouse-8-border-l: 60%; 
+    --kin-spouse-8-bg-h: 240;     --kin-spouse-8-bg-s: 50%;     --kin-spouse-8-bg-l: 20%;
+    --kin-spouse-9-border-h: 10;  --kin-spouse-9-border-s: 70%; --kin-spouse-9-border-l: 55%; 
+    --kin-spouse-9-bg-h: 10;      --kin-spouse-9-bg-s: 70%;     --kin-spouse-9-bg-l: 18%;
+    --kin-spouse-10-border-h: 210;--kin-spouse-10-border-s: 60%; --kin-spouse-10-border-l: 50%; 
+    --kin-spouse-10-bg-h: 210;    --kin-spouse-10-bg-s: 60%;     --kin-spouse-10-bg-l: 20%;
+    --kin-spouse-11-border-h: 150;--kin-spouse-11-border-s: 50%; --kin-spouse-11-border-l: 50%; 
+    --kin-spouse-11-bg-h: 150;    --kin-spouse-11-bg-s: 50%;     --kin-spouse-11-bg-l: 18%;
+    --kin-spouse-12-border-h: 300;--kin-spouse-12-border-s: 60%; --kin-spouse-12-border-l: 50%; 
+    --kin-spouse-12-bg-h: 300;    --kin-spouse-12-bg-s: 60%;     --kin-spouse-12-bg-l: 20%;
+    --kin-spouse-13-border-h: 75; --kin-spouse-13-border-s: 40%; --kin-spouse-13-border-l: 40%; 
+    --kin-spouse-13-bg-h: 75;     --kin-spouse-13-bg-s: 40%;     --kin-spouse-13-bg-l: 17%;
+    --kin-spouse-14-border-h: 5;  --kin-spouse-14-border-s: 60%; --kin-spouse-14-border-l: 58%; 
+    --kin-spouse-14-bg-h: 5;      --kin-spouse-14-bg-s: 60%;     --kin-spouse-14-bg-l: 19%;
+    --kin-spouse-15-border-h: 205;--kin-spouse-15-border-s: 40%; --kin-spouse-15-border-l: 45%; 
+    --kin-spouse-15-bg-h: 205;    --kin-spouse-15-bg-s: 40%;     --kin-spouse-15-bg-l: 18%;
+    --kin-spouse-16-border-h: 340;--kin-spouse-16-border-s: 60%; --kin-spouse-16-border-l: 60%; 
+    --kin-spouse-16-bg-h: 340;    --kin-spouse-16-bg-s: 60%;     --kin-spouse-16-bg-l: 20%;
+    --kin-spouse-17-border-h: 80; --kin-spouse-17-border-s: 70%; --kin-spouse-17-border-l: 40%; 
+    --kin-spouse-17-bg-h: 80;     --kin-spouse-17-bg-s: 70%;     --kin-spouse-17-bg-l: 17%;
+    --kin-spouse-18-border-h: 255;--kin-spouse-18-border-s: 40%; --kin-spouse-18-border-l: 50%; 
+    --kin-spouse-18-bg-h: 255;    --kin-spouse-18-bg-s: 40%;     --kin-spouse-18-bg-l: 18%;
+    --kin-spouse-19-border-h: 35; --kin-spouse-19-border-s: 50%; --kin-spouse-19-border-l: 40%; 
+    --kin-spouse-19-bg-h: 35;     --kin-spouse-19-bg-s: 50%;     --kin-spouse-19-bg-l: 17%;
+
+    --kin-deceased-border-h: 210; --kin-deceased-border-s: 10%; --kin-deceased-border-l: 30%;
+    --kin-deceased-bg-h: 210;     --kin-deceased-bg-s: 10%;     --kin-deceased-bg-l: 15%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* font-family: var(--font-body); Removed as className="font-body" is on body tag in layout.tsx */
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+}

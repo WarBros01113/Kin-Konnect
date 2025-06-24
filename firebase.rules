@@ -1,0 +1,107 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isResourceOwner(userId) {
+      // Ensures the user is authenticated before checking UID
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isUserAdmin() {
+      // Ensure the user is authenticated before trying to access their admin status
+      return request.auth != null &&
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // Users Collection
+    match /users/{ownerId} {
+      // Read access to individual user profiles
+      allow read: if isAuthenticated();
+
+      // Write access for user profiles
+      allow create: if isResourceOwner(ownerId); // User can create their own profile
+      allow update: if isResourceOwner(ownerId) || isUserAdmin(); // Owner or admin can update
+      allow delete: if isUserAdmin(); // Only admin can delete user profile doc
+
+      // Admins can list all users (e.g., for dashboard stats)
+      allow list: if isUserAdmin();
+
+      // FamilyMembers Subcollection
+      match /familyMembers/{memberDocId} {
+        allow read: if isAuthenticated();
+        allow create, update, delete: if isResourceOwner(ownerId) || isUserAdmin();
+      }
+
+      // KonnectRequests Subcollection: stores requests *received* by {ownerId}
+      // {requestingUserId} is the ID of the user who sent the request to {ownerId}
+      match /konnectRequests/{requestingUserId} {
+        // Who can read these requests?
+        // 1. The owner of the list (recipient of the request) can read any request sent to them.
+        // 2. The sender of a specific request can read that specific request document (e.g., to check its status).
+        allow read: if request.auth != null && (request.auth.uid == ownerId || request.auth.uid == requestingUserId);
+
+        // Recipient can list their own requests
+        allow list: if isResourceOwner(ownerId);
+
+        // Who can create a request? The sender.
+        // The document ID {requestingUserId} MUST be the sender's UID.
+        // The data being written must also confirm senderId is auth.uid.
+        allow create: if isAuthenticated() &&
+                       request.auth.uid == requestingUserId &&
+                       request.resource.data.senderId == request.auth.uid;
+
+        // Who can delete?
+        // 1. The recipient of the request ({ownerId}) can delete it (accept/decline).
+        // 2. The sender of the request ({requestingUserId}) can delete/cancel their own request.
+        allow delete: if isAuthenticated() && (request.auth.uid == ownerId || request.auth.uid == requestingUserId);
+
+        // No updates to requests are typically needed; they are created then deleted.
+        allow update: if false;
+      }
+
+      // Konnections Subcollection: stores confirmed connections for {ownerId}
+      // {konnectedToUserId} is the ID of the user {ownerId} is connected to.
+      match /konnections/{konnectedToUserId} {
+        // Only the owner of this list can read/list their connections.
+        allow read, list: if isResourceOwner(ownerId);
+
+        // Who can create a connection document?
+        // 1. The owner of the list ({ownerId}) can add a connection to {konnectedToUserId}.
+        // 2. The person being connected to ({konnectedToUserId}) can create this specific document
+        //    (this happens during accept, where acceptor writes to both their own and the other user's list).
+        //    The data being written must also correctly reflect this link.
+        allow create: if isAuthenticated() &&
+                       ( (request.auth.uid == ownerId && request.resource.data.konnectedUserId == konnectedToUserId) ||
+                         (request.auth.uid == konnectedToUserId && request.resource.data.konnectedUserId == request.auth.uid) );
+                         // Simpler way for create might be:
+                         // request.auth.uid == ownerId (I am adding someone to my list)
+                         // OR
+                         // request.auth.uid == konnectedToUserId (I am the one being added to someone else's list, e.g. during an accept flow)
+
+        // Who can delete a connection?
+        // 1. The owner of the list ({ownerId}) can remove a connection.
+        // 2. The person who is connected to ({konnectedToUserId}) can remove themselves from this list.
+        allow delete: if isAuthenticated() && (request.auth.uid == ownerId || request.auth.uid == konnectedToUserId);
+
+        // No updates to konnection documents typically needed; they are created then deleted.
+        allow update: if false;
+      }
+    }
+
+    // Rules for the 'familyMembers' collection group
+    match /{path=**}/familyMembers/{memberDocId} {
+      allow list: if isUserAdmin();
+      allow read: if isUserAdmin();
+    }
+  }
+}
+
+    

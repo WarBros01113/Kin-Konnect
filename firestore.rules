@@ -1,0 +1,63 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isResourceOwner(userId) {
+      // Ensures the user is authenticated before checking UID
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isUserAdmin() {
+      // Ensure the user is authenticated before trying to access their admin status
+      return request.auth != null &&
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      // Read access to individual user profiles
+      allow read: if isAuthenticated();
+
+      // Write access for user profiles
+      allow create: if isResourceOwner(userId); // User can create their own profile
+      allow update: if isResourceOwner(userId) || isUserAdmin(); // Owner or admin can update
+      allow delete: if isUserAdmin(); // Only admin can delete user profile doc
+
+      // ---- ADMIN FUNCTIONALITY ----
+      // Admins can list all users (e.g., for dashboard stats)
+      allow list: if isUserAdmin();
+      // ---------------------------
+
+      // FamilyMembers Subcollection
+      match /familyMembers/{familyMemberId} {
+        // Read access to individual family member documents
+        allow read: if isAuthenticated();
+
+        // Write access for family members (owner of the tree or admin)
+        allow create, update, delete: if isResourceOwner(userId) || isUserAdmin();
+        // 'list' for this subcollection (if needed directly) would also require a specific rule
+        // or rely on the collectionGroup rule if querying across all users' family members.
+      }
+    }
+
+    // ---- ADMIN FUNCTIONALITY for Collection Group ----
+    // Rules for the 'familyMembers' collection group
+    // This allows admins to query across all 'familyMembers' subcollections.
+    match /{path=**}/familyMembers/{familyMemberId} {
+      // Admins can list all family members across all users (e.g., for dashboard stats)
+      allow list: if isUserAdmin();
+      // Admins can read individual family members found via collection group query
+      // Note: Read permission for a specific document path will also be checked against
+      // the more specific rule at /users/{userId}/familyMembers/{familyMemberId}
+      allow read: if isUserAdmin();
+    }
+    // --------------------------------------------
+  }
+}
